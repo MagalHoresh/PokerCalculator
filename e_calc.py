@@ -62,8 +62,9 @@ class eCalc(ttk.Frame):
     def handle_go_button(self):
         self.spr = round(
             Decimal(self.stack_size.get() / self.pot_size.get()), 2)
-        two_e = self.calc_two_e()
-        three_e = self.calc_three_e()
+        x = Symbol('x')
+        two_e = self.solve_e_equation(2*x**2 + 2*x - self.spr)
+        three_e = self.solve_e_equation(4*x**3 + 6*x**2 + 3*x - self.spr)
 
         self.spr_text.set(f'SPR = {self.spr}')
         if two_e <= 100:
@@ -74,18 +75,8 @@ class eCalc(ttk.Frame):
         bet_size = self.calc_bet_size(three_e)
         self.three_e_text.set(f'3e = {three_e}% (bet: {bet_size})')
 
-    # 2e is calculated by solving the quadratic equation 2x**2 + 2x - SPR = 0 and taking the positive solution
-    def calc_two_e(self):
-        x = Symbol('x')
-        solutions = solve(2*x**2 + 2*x - self.spr)
-        for sol in solutions:
-            if sol > 0:
-                return round(sol * 100)
-
-    # 3e is calculated by solving the cubic equation 4x**3 + 6x**2 + 3x - SPR = 0 and taking the positive solution
-    def calc_three_e(self):
-        x = Symbol('x')
-        solutions = solve(4*x**3 + 6*x**2 + 3*x - self.spr)
+    def solve_e_equation(self, equation):
+        solutions = solve(equation)
         for sol in solutions:
             if sol > 0:
                 return round(sol * 100)
