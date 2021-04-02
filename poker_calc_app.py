@@ -2,10 +2,10 @@
 # main_app.py by Magal Horesh
 # This is a poker calculator
 
-from tkinter import *
+from tkinter import Tk
 from tkinter import ttk
-from e_calc import eCalc
-from four_bet_calc import FourBetCalc
+from e_calc import ECalc
+from bet_size_calc import BetSizeCalc
 
 
 class PokerCalcApp(ttk.Frame):
@@ -17,19 +17,19 @@ class PokerCalcApp(ttk.Frame):
 
         self.notebook = ttk.Notebook(self)
         self.notebook.pack()
-        self.e_calc_tab = eCalc(self.notebook)
-        self.four_bet_calc_tab = FourBetCalc(self.notebook)
-        self.notebook.add(self.e_calc_tab, text='eCalc')
-        self.notebook.add(self.four_bet_calc_tab, text='4BetCalc')
+        self.e_calc_tab = ECalc(self.notebook)
+        self.bet_size_calc_tab = BetSizeCalc(self.notebook)
+        self.notebook.add(self.e_calc_tab, text='ECalc')
+        self.notebook.add(self.bet_size_calc_tab, text='BetSizeCalc')
 
         # define dictionaries
         self.enter_key_dict = {
             0: self.e_calc_tab.handle_go_button,
-            1: self.four_bet_calc_tab.handle_go_button
+            1: self.bet_size_calc_tab.handle_go_button
         }
         self.c_key_dict = {
             0: self.e_calc_tab.handle_clear_button,
-            1: self.four_bet_calc_tab.handle_clear_button
+            1: self.bet_size_calc_tab.handle_clear_button
         }
 
         # define styles

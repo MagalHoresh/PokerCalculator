@@ -2,20 +2,23 @@
 # e_calc.py by Magal Horesh
 # This is 2e and 3e calculator
 
-from tkinter import *
+from tkinter import DoubleVar
+from tkinter import StringVar
+from tkinter import LEFT
+from tkinter import END
 from tkinter import ttk
 from decimal import Decimal
 from sympy.solvers import solve
 from sympy import Symbol
 
 
-class eCalc(ttk.Frame):
+class ECalc(ttk.Frame):
 
     def __init__(self, parent):
         ttk.Frame.__init__(self, parent)
 
-        self.stack_size = IntVar()
-        self.pot_size = IntVar()
+        self.stack_size = DoubleVar()
+        self.pot_size = DoubleVar()
         self.spr = 0
 
         # create stack size frame
@@ -43,9 +46,11 @@ class eCalc(ttk.Frame):
         # create buttons
         self.buttons_frame = ttk.Frame(self, padding=(20, 10))
         self.go_button = ttk.Button(
-            self.buttons_frame, text="Go!", command=self.handle_go_button, style='Button.TButton').pack(side=LEFT)
+            self.buttons_frame, text="Go!", command=self.handle_go_button,
+            style='Button.TButton').pack(side=LEFT)
         self.clear_button = ttk.Button(
-            self.buttons_frame, text="Clear", command=self.handle_clear_button, style='Button.TButton').pack(side=LEFT)
+            self.buttons_frame, text="Clear", command=self.handle_clear_button,
+            style='Button.TButton').pack(side=LEFT)
         self.buttons_frame.pack()
 
         # create results labels
@@ -80,6 +85,10 @@ class eCalc(ttk.Frame):
         for sol in solutions:
             if sol > 0:
                 return round(sol * 100)
+        return None
+
+    def calc_bet_size(self, percent):
+        return round(Decimal(str(self.pot_size.get() * percent / 100)), 1)
 
     def handle_clear_button(self):
         self.delete_entries_text()
@@ -93,6 +102,3 @@ class eCalc(ttk.Frame):
         self.spr_text.set('')
         self.two_e_text.set('')
         self.three_e_text.set('')
-
-    def calc_bet_size(self, percent):
-        return round(self.pot_size.get() * percent / 100)
